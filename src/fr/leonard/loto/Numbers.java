@@ -6,23 +6,23 @@ public class Numbers {
 
     public static void createNumbers(int boards, int Long, int large) {
         for (int i = 0; i < boards; i++) {
-            positions();
+            //positions();
+            System.out.println(Arrays.deepToString(positions(Long, large)));
         }
     }
 
-    public static void positions() {
-        //FIRST LINE = 5 NUMBERS, SECONDE = 5, ECT...
-        int[] nbFirstLine = new int[5];
-        int[] nbLines = new int[15];
+    public static int[][] positions(int Long, int large) {
+        int[][] nbLines = new int[large][Long / 2];
+        int[] nbFirstLine = new int[Long / 2];
 
         int line = 0;
-        while (line < 3) {
+        while (line < large) {
 
             Arrays.fill(nbFirstLine, -1);
             int firstLigne = 0;
-            while (firstLigne < 5) {
+            while (firstLigne < Long / 2) {
 
-                double random = Math.random() * 10;
+                double random = Math.random() * Long;
                 int number = (int) Math.floor(random);
 
                 //CHECK IF NUMBER EXIST
@@ -41,10 +41,10 @@ public class Numbers {
                 }
             }
             //COPY
-            System.arraycopy(nbFirstLine, 0, nbLines, line * 5, 5);
+            System.arraycopy(nbFirstLine, 0, nbLines[line], 0, nbFirstLine.length);
+
             line++;
         }
-
-        System.out.println(Arrays.toString(nbLines));
+        return nbLines;
     }
 }

@@ -27,7 +27,7 @@ public class Window extends JFrame {
         repNbBoards.setHorizontalAlignment(SwingConstants.RIGHT);
         repNbBoards.setCaretPosition(1);
 
-        JLabel boardLong = new JLabel("Nombre de colones");
+        JLabel boardLong = new JLabel("Nombre de colones (pair)");
         JTextField repBoardLong = new JTextField("10");
         repBoardLong.setPreferredSize(textField);
         repBoardLong.setHorizontalAlignment(SwingConstants.RIGHT);
