@@ -14,49 +14,86 @@ public class Window extends JFrame {
 
         //JPANEL
         JPanel jPanel = new JPanel();
-        jPanel.setLayout(new BorderLayout());
-
-        //DIMENSIONS
-        Dimension minimumSize = new Dimension(300, 100);
-        Dimension defaultSize = new Dimension(400, 400);
-        jFrame.setMinimumSize(minimumSize);
-        jFrame.setPreferredSize(defaultSize);
+        GridLayout layout = new GridLayout(4, 2);
+        jPanel.setLayout(layout);
+        layout.setVgap(20);
 
         //ELEMENTS
         JLabel nbBoards = new JLabel("Nombre de planches");
-        JTextField repNbBoards = new JTextField("100");
 
-        repNbBoards.setPreferredSize(new Dimension(100, repNbBoards.getFont().getSize() * 2));
+        JTextField repNbBoards = new JTextField("1");
+        Dimension textField = new Dimension(100, repNbBoards.getFont().getSize() * 2);
+        repNbBoards.setPreferredSize(textField);
         repNbBoards.setHorizontalAlignment(SwingConstants.RIGHT);
-        repNbBoards.setCaretPosition(3);
+        repNbBoards.setCaretPosition(1);
+
+        JLabel boardLong = new JLabel("Nombre de colones");
+        JTextField repBoardLong = new JTextField("10");
+        repBoardLong.setPreferredSize(textField);
+        repBoardLong.setHorizontalAlignment(SwingConstants.RIGHT);
+
+        JLabel boardLarge = new JLabel("Nombre de lignes");
+        JTextField repBoardlarge = new JTextField("3");
+        repBoardlarge.setPreferredSize(textField);
+        repBoardlarge.setHorizontalAlignment(SwingConstants.RIGHT);
 
         JButton button = new JButton("Générer");
         button.addActionListener(e -> {
 
-            String text = repNbBoards.getText();
-            boolean isValid = true;
+            String boards = repNbBoards.getText();
+            String Long = repBoardLong.getText();
+            String large = repBoardlarge.getText();
 
-            for (int i = 0; i < text.length(); i++) {
-                if (!Character.isDigit(text.charAt(i))) {
-                    isValid = false;
-                }
-            }
+            boolean allValid = checkNumbers(boards)
+                    && checkNumbers(Long)
+                    && checkNumbers(large);
 
-            if (isValid) {
-                Numbers.createNumbers(Integer.parseInt(repNbBoards.getText()));
+            if (allValid) {
+                Numbers.createNumbers(Integer.parseInt(repNbBoards.getText()),
+                        Integer.parseInt(repBoardLong.getText()),
+                        Integer.parseInt(repBoardlarge.getText()));
             } else {
-                JOptionPane.showMessageDialog(jFrame, "Veuillez enter un nombre de planche valide !");
+                JOptionPane.showMessageDialog(jFrame, "Veuillez enter un nombre valide !");
             }
         });
 
         //ADD
-        jPanel.add(nbBoards, BorderLayout.WEST);
-        jPanel.add(repNbBoards, BorderLayout.EAST);
-        jPanel.add(button, BorderLayout.SOUTH);
+        jPanel.add(nbBoards);
+        jPanel.add(repNbBoards);
+        jPanel.add(boardLong);
+        jPanel.add(repBoardLong);
+        jPanel.add(boardLarge);
+        jPanel.add(repBoardlarge);
+        jPanel.add(new JLabel()); //EMPTY CASE
+        jPanel.add(button);
+
+
+        //DIMENSIONS
+        Dimension minimumSize = new Dimension(300, 200);
+        Dimension defaultSize = new Dimension(400, 400);
+        jFrame.setMinimumSize(minimumSize);
+        jFrame.setPreferredSize(defaultSize);
 
         setContentPane(jPanel);
         jFrame.add(jPanel);
         jFrame.pack();
         jFrame.setVisible(true);
+    }
+
+    public static boolean checkNumbers(String answer) {
+        boolean isValid = true;
+
+        for (int i = 0; i < answer.length(); i++) {
+            if (!Character.isDigit(answer.charAt(i))) {
+                isValid = false;
+                break;
+            }
+        }
+
+        if (answer.equals("")) {
+            isValid = false;
+        }
+
+        return isValid;
     }
 }

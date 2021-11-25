@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class Numbers {
 
-    public static void createNumbers(int boards) {
+    public static void createNumbers(int boards, int Long, int large) {
         for (int i = 0; i < boards; i++) {
             positions();
         }
