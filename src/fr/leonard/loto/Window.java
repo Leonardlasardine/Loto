@@ -49,7 +49,7 @@ public class Window extends JFrame {
                     && checkNumbers(large);
 
             if (allValid) {
-                Numbers.createNumbers(Integer.parseInt(repNbBoards.getText()),
+                new Numbers(Integer.parseInt(repNbBoards.getText()),
                         Integer.parseInt(repBoardLong.getText()),
                         Integer.parseInt(repBoardlarge.getText()));
             } else {
@@ -80,7 +80,7 @@ public class Window extends JFrame {
         jFrame.setVisible(true);
     }
 
-    public static boolean checkNumbers(String answer) {
+    private static boolean checkNumbers(String answer) {
         boolean isValid = true;
 
         for (int i = 0; i < answer.length(); i++) {

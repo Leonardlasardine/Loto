@@ -4,30 +4,30 @@ import java.util.Arrays;
 
 public class Numbers {
 
-    public static void createNumbers(int boards, int Long, int large) {
+    public Numbers(int boards, int Long, int large) {
         for (int i = 0; i < boards; i++) {
-            //positions();
-            System.out.println(Arrays.deepToString(positions(Long, large)));
+            System.out.println(Arrays.deepToString(
+                    values(positions(Long, large))));
         }
     }
 
-    public static int[][] positions(int Long, int large) {
-        int[][] nbLines = new int[large][Long / 2];
-        int[] nbFirstLine = new int[Long / 2];
+    private int[][] positions(int Long, int large) {
+        int[][] posLines = new int[large][Long / 2];
+        int[] posOneLine = new int[Long / 2];
 
         int line = 0;
         while (line < large) {
 
-            Arrays.fill(nbFirstLine, -1);
-            int firstLigne = 0;
-            while (firstLigne < Long / 2) {
+            Arrays.fill(posOneLine, -1);
+            int oneLigne = 0;
+            while (oneLigne < Long / 2) {
 
                 double random = Math.random() * Long;
                 int number = (int) Math.floor(random);
 
                 //CHECK IF NUMBER EXIST
                 boolean numberExist = false;
-                for (int j : nbFirstLine) {
+                for (int j : posOneLine) {
                     if (Math.floor(random) == j) {
                         numberExist = true;
                         break;
@@ -36,15 +36,32 @@ public class Numbers {
 
                 //ELSE ADD THE NUMBER
                 if (!numberExist) {
-                    nbFirstLine[firstLigne] = number;
-                    firstLigne++;
+                    posOneLine[oneLigne] = number;
+                    oneLigne++;
                 }
             }
+            Arrays.sort(posOneLine);
             //COPY
-            System.arraycopy(nbFirstLine, 0, nbLines[line], 0, nbFirstLine.length);
+            System.arraycopy(posOneLine, 0, posLines[line], 0, posOneLine.length);
 
             line++;
         }
-        return nbLines;
+        return posLines;
+    }
+
+    private String[][] values(int[][] positions) {
+        int Long = positions[1].length;
+        int large = positions.length;
+        String[][] values = new String[large][Long];
+
+        for (int i = 0; i < large; i++) {
+            for (int j = 0; j < Long; j++) {
+                double random = Math.random() * Long;
+
+                String number = Integer.toString(positions[i][j]) + (int) Math.floor(random);
+                values[i][j] = number;
+            }
+        }
+        return values;
     }
 }
