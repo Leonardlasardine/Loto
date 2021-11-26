@@ -6,8 +6,8 @@ public class Numbers {
 
     public Numbers(int boards, int Long, int large) {
         for (int i = 0; i < boards; i++) {
-            System.out.println(Arrays.deepToString(
-                    values(positions(Long, large))));
+            View view = new View(Long, large,
+                    values(positions(Long, large)));
         }
     }
 
