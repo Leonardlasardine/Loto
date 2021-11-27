@@ -6,8 +6,10 @@ public class Numbers {
 
     public Numbers(int boards, int Long, int large) {
         for (int i = 0; i < boards; i++) {
-            View view = new View(Long, large,
-                    values(positions(Long, large)));
+            int[][] posLines = positions(Long, large);
+            int[][] sorted = sorted(values(posLines), Long, large);
+
+            View view = new View(Long, large, sorted, i);
         }
     }
 
@@ -49,19 +51,37 @@ public class Numbers {
         return posLines;
     }
 
-    private String[][] values(int[][] positions) {
+    private int[][] values(int[][] positions) {
         int Long = positions[1].length;
         int large = positions.length;
-        String[][] values = new String[large][Long];
+        int[][] values = new int[large][Long];
 
         for (int i = 0; i < large; i++) {
             for (int j = 0; j < Long; j++) {
                 double random = Math.random() * Long;
 
                 String number = Integer.toString(positions[i][j]) + (int) Math.floor(random);
-                values[i][j] = number;
+                values[i][j] = Integer.parseInt(number);
             }
         }
         return values;
+    }
+
+    private int[][] sorted(int[][] values, int Long, int large) {
+        int[][] sorted = new int[large][Long];
+
+        for (int i = 0; i < large; i++) {
+            for (int j = 0; j < Long; j++) {
+                for (int a : values[i]) {
+                    if (a / 10 == j) {
+                        sorted[i][j] = a;
+                        break;
+                    } else {
+                        sorted[i][j] = -1;
+                    }
+                }
+            }
+        }
+        return sorted;
     }
 }
