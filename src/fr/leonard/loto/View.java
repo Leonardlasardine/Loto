@@ -14,7 +14,6 @@ public class View extends JFrame {
         JFrame jFrame = new JFrame();
         jFrame.setTitle("Planche numéro " + boardNumber);
         jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        //jFrame.setLocationRelativeTo(0, 0);
 
         //JPANEL
         JPanel jPanel = new JPanel();
@@ -31,12 +30,13 @@ public class View extends JFrame {
                     jLabel.setBackground(Color.ORANGE);
                 }
                 jLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                jLabel.setFont(new Font("Calibri", Font.BOLD, 36));
                 jPanel.add(jLabel);
             }
         }
 
         //DIMENSIONS
-        Dimension defaultSize = new Dimension(1800, 900);
+        Dimension defaultSize = new Dimension(1920, 1080);
         jFrame.setPreferredSize(defaultSize);
         jFrame.setResizable(false);
 
@@ -58,7 +58,7 @@ public class View extends JFrame {
             e.printStackTrace();
         }
 
-        /*jFrame.setVisible(false);
-        jFrame.dispose();*/
+        jFrame.setVisible(false);
+        jFrame.dispose();
     }
 }

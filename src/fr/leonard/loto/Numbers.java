@@ -29,8 +29,8 @@ public class Numbers {
 
                 //CHECK IF NUMBER EXIST
                 boolean numberExist = false;
-                for (int j : posOneLine) {
-                    if (Math.floor(random) == j) {
+                for (int i : posOneLine) {//////////////////TOOOOOOOOOOOOOUUUUUUUUT CASSÉ
+                    if (number == i) {
                         numberExist = true;
                         break;
                     }
@@ -57,11 +57,29 @@ public class Numbers {
         int[][] values = new int[large][Long];
 
         for (int i = 0; i < large; i++) {
-            for (int j = 0; j < Long; j++) {
+            int oneLigne = 0;
+            while (oneLigne < Long) {
                 double random = Math.random() * Long;
+                int random2 = (int) Math.floor(random);
+                String number = Integer.toString(positions[i][oneLigne]) + random2;
 
-                String number = Integer.toString(positions[i][j]) + (int) Math.floor(random);
-                values[i][j] = Integer.parseInt(number);
+                //CHECK IF NUMBER EXIST
+                boolean numberExist = false;
+                outer:
+                for (int j = 0; j < large; j++) {
+                    for (int k : values[j]) {
+                        if (number.equals(String.valueOf(k))) {
+                            numberExist = true;
+                            break outer;
+                        }
+                    }
+                }
+
+                //ELSE ADD THE NUMBER
+                if (!numberExist) {
+                    values[i][oneLigne] = Integer.parseInt(number);
+                    oneLigne++;
+                }
             }
         }
         return values;
