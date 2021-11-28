@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 
 public class View extends JFrame {
 
-    public View(int Long, int large, int[][] values, int boardNumber, String path) {
+    public View(int Long, int large, int[][] values, int boardNumber, String path, Color color) {
         //JFRAME
         JFrame jFrame = new JFrame();
         jFrame.setTitle("Planche numéro " + (boardNumber + 1));
@@ -30,7 +30,7 @@ public class View extends JFrame {
                 jLabel.setOpaque(true);
                 if (values[i][j] != -1) {
                     jLabel.setText(String.valueOf(values[i][j]));
-                    jLabel.setBackground(Color.ORANGE);
+                    jLabel.setBackground(color);
                 } else {
                     jLabel.setBackground(Color.LIGHT_GRAY);
                 }

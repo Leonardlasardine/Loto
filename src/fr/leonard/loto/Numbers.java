@@ -7,12 +7,12 @@ import java.util.Arrays;
 
 public class Numbers {
 
-    public Numbers(int boards, int Long, int large, String path) {
+    public Numbers(int boards, int Long, int large, String path, Color color) {
         for (int i = 0; i < boards; i++) {
             int[][] posLines = positions(Long, large);
             int[][] sorted = sorted(values(posLines), Long, large);
 
-            new View(Long, large, sorted, i, path);
+            new View(Long, large, sorted, i, path, color);
         }
 
         //OPEN THE FOLDER
