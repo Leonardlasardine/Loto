@@ -1,15 +1,26 @@
 package fr.leonard.loto;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class Numbers {
 
-    public Numbers(int boards, int Long, int large) {
+    public Numbers(int boards, int Long, int large, String path) {
         for (int i = 0; i < boards; i++) {
             int[][] posLines = positions(Long, large);
             int[][] sorted = sorted(values(posLines), Long, large);
 
-            View view = new View(Long, large, sorted, i);
+            new View(Long, large, sorted, i, path);
+        }
+
+        //OPEN THE FOLDER
+        Desktop desktop = Desktop.getDesktop();
+        try {
+            desktop.open(new File(path));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -29,7 +40,7 @@ public class Numbers {
 
                 //CHECK IF NUMBER EXIST
                 boolean numberExist = false;
-                for (int i : posOneLine) {//////////////////TOOOOOOOOOOOOOUUUUUUUUT CASSÉ
+                for (int i : posOneLine) {
                     if (number == i) {
                         numberExist = true;
                         break;
@@ -59,7 +70,7 @@ public class Numbers {
         for (int i = 0; i < large; i++) {
             int oneLigne = 0;
             while (oneLigne < Long) {
-                double random = Math.random() * Long;
+                double random = Math.random() * Long * 2;
                 int random2 = (int) Math.floor(random);
                 String number = Integer.toString(positions[i][oneLigne]) + random2;
 

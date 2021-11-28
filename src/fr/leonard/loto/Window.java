@@ -2,6 +2,7 @@ package fr.leonard.loto;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Window extends JFrame {
 
@@ -14,7 +15,7 @@ public class Window extends JFrame {
 
         //JPANEL
         JPanel jPanel = new JPanel();
-        GridLayout layout = new GridLayout(4, 2);
+        GridLayout layout = new GridLayout(6, 2, 10, 10);
         jPanel.setLayout(layout);
         layout.setVgap(20);
 
@@ -37,6 +38,37 @@ public class Window extends JFrame {
         repBoardlarge.setPreferredSize(textField);
         repBoardlarge.setHorizontalAlignment(SwingConstants.RIGHT);
 
+        JLabel folder = new JLabel("Dossier");
+        AtomicReference<String> path = new AtomicReference<>("panches/");
+        JTextField repFolder = new JTextField(path.get());
+        repFolder.setPreferredSize(textField);
+
+        JButton buttonChooser = new JButton("Choisir le dossier de destination");
+        buttonChooser.addActionListener(e -> {
+
+            try { //STYLE WINDOWS
+                UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e2) {
+                e2.printStackTrace();
+            }
+            JFileChooser chooser = new JFileChooser();
+            chooser.setCurrentDirectory(new java.io.File("."));
+            chooser.setDialogTitle("Choisir le dossier de destination");
+            chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            chooser.setAcceptAllFileFilterUsed(false);
+
+            int returnFolder = chooser.showOpenDialog(this);
+            if (returnFolder == JFileChooser.APPROVE_OPTION) {
+                path.set(chooser.getSelectedFile().toString());
+                repFolder.setText(path.get());
+                try {
+                    UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e2) {
+                    e2.printStackTrace();
+                }
+            }
+        });
+
         JButton button = new JButton("Générer");
         button.addActionListener(e -> {
 
@@ -51,11 +83,13 @@ public class Window extends JFrame {
             if (allValid) {
                 new Numbers(Integer.parseInt(repNbBoards.getText()),
                         Integer.parseInt(repBoardLong.getText()),
-                        Integer.parseInt(repBoardlarge.getText()));
+                        Integer.parseInt(repBoardlarge.getText()),
+                        path.get());
             } else {
                 JOptionPane.showMessageDialog(jFrame, "Veuillez enter un nombre valide !");
             }
         });
+
 
         //ADD
         jPanel.add(nbBoards);
@@ -64,13 +98,17 @@ public class Window extends JFrame {
         jPanel.add(repBoardLong);
         jPanel.add(boardLarge);
         jPanel.add(repBoardlarge);
-        jPanel.add(new JLabel()); //EMPTY CASE
+        jPanel.add(folder);
+        jPanel.add(buttonChooser);
+        jPanel.add(new JLabel());
+        jPanel.add(repFolder);
+        jPanel.add(new JLabel());/*EMPTY CASE*/
         jPanel.add(button);
 
 
         //DIMENSIONS
-        Dimension minimumSize = new Dimension(300, 200);
-        Dimension defaultSize = new Dimension(400, 400);
+        Dimension minimumSize = new Dimension(400, 400);
+        Dimension defaultSize = new Dimension(600, 600);
         jFrame.setMinimumSize(minimumSize);
         jFrame.setPreferredSize(defaultSize);
 
