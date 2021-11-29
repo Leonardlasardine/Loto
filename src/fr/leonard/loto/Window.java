@@ -6,12 +6,21 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class Window extends JFrame {
 
+    JFrame jFrame;
     JTextField repFolder;
     AtomicReference<String> path;
+    JButton buttonColor;
+    AtomicReference<Color> boardColor;
 
     public Window() throws HeadlessException {
+        try { //STYLE WINDOWS
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e2) {
+            e2.printStackTrace();
+        }
+
         //JFRAME
-        JFrame jFrame = new JFrame();
+        jFrame = new JFrame();
         jFrame.setTitle("Générateur de planches de loto " + Loto.version);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setLocationRelativeTo(null);
@@ -50,9 +59,10 @@ public class Window extends JFrame {
         buttonChooser.addActionListener(e -> fileChooser());
 
         JLabel color = new JLabel("Couleur");
-        AtomicReference<Color> repColor = new AtomicReference<>(Color.ORANGE);
-        JButton buttonColor = new JButton("Choisir une couleur");
-        buttonColor.addActionListener(e -> repColor.set(colourChooser(repColor.get())));
+        boardColor = new AtomicReference<>(Color.ORANGE);
+        buttonColor = new JButton("Choisir une couleur");
+        buttonColor.addActionListener(e -> boardColor.set(colourChooser(boardColor.get())));
+        buttonColor.setBackground(boardColor.get());
 
         JButton button = new JButton("Générer");
         button.addActionListener(e -> {
@@ -69,7 +79,7 @@ public class Window extends JFrame {
                         Integer.parseInt(repBoardLong.getText()),
                         Integer.parseInt(repBoardlarge.getText()),
                         path.get(),
-                        repColor.get());
+                        boardColor.get());
             } else {
                 JOptionPane.showMessageDialog(jFrame, "Veuillez enter un nombre valide !");
             }
@@ -121,11 +131,6 @@ public class Window extends JFrame {
     }
 
     private void fileChooser() {
-        try { //STYLE WINDOWS
-            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e2) {
-            e2.printStackTrace();
-        }
         JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(new java.io.File("."));
         chooser.setDialogTitle("Choisissez le dossier de destination");
@@ -136,21 +141,18 @@ public class Window extends JFrame {
         if (returnFolder == JFileChooser.APPROVE_OPTION) {
             path.set(chooser.getSelectedFile().toString());
             repFolder.setText(path.get());
-            try {
-                UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e2) {
-                e2.printStackTrace();
-            }
         }
     }
-
 
     private Color colourChooser(Color color) {
         Color repColor = JColorChooser.showDialog(this, "Choisissez une couleur", color);
         if (repColor != null) {
-            return new Color(repColor.getRed(), repColor.getGreen(), repColor.getBlue());
+            Color newColor = new Color(repColor.getRed(), repColor.getGreen(), repColor.getBlue());
+            buttonColor.setBackground(newColor);
+            jFrame.pack();
+            return newColor;
         } else {
-            return Color.BLACK;
+            return color;
         }
     }
 }

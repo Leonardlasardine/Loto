@@ -86,6 +86,10 @@ public class Numbers {
                     }
                 }
 
+                if (number.equals("00")) {
+                    number = "01";
+                }
+
                 //ELSE ADD THE NUMBER
                 if (!numberExist) {
                     values[i][oneLigne] = Integer.parseInt(number);
